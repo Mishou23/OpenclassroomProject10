@@ -29,6 +29,7 @@ const Slider = () => {
               index === idx ? "display" : "hide"
             }`}
           >
+         {console.log(event)}
             <img src={event.cover} alt="forum" />
             <div className="SlideCard__descriptionContainer">
               <div className="SlideCard__description">
