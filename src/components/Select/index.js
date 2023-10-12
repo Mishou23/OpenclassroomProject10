@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 import "./style.scss";
 
+
 const Select = ({
   selection,
   onChange,
@@ -13,13 +14,18 @@ const Select = ({
   label,
   type = "normal",
 }) => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(null);
   const [collapsed, setCollapsed] = useState(true);
-  const changeValue = (newValue) => {
-    onChange();
+
+  const handleLabelChange = (newValue) => {
+    // Update the selected label
     setValue(newValue);
-    setCollapsed(newValue);
+    // Call the onChange function provided by the parent component
+    onChange(newValue);
+    // Close the dropdown
+    setCollapsed(true);
   };
+
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
       {label && <div className="label">{label}</div>}
@@ -31,13 +37,13 @@ const Select = ({
           {!collapsed && (
             <>
               {!titleEmpty && (
-                <li onClick={() => changeValue(null)}>
+                <li onClick={() => handleLabelChange(null)}>
                   <input defaultChecked={!value} name="selected" type="radio" />{" "}
                   Toutes
                 </li>
               )}
               {selection.map((s) => (
-                <li key={s} onClick={() => changeValue(s)}>
+                <li key={s} onClick={() => handleLabelChange(s)}>
                   <input
                     defaultChecked={value === s}
                     name="selected"
@@ -88,7 +94,7 @@ Select.propTypes = {
   titleEmpty: PropTypes.bool,
   label: PropTypes.string,
   type: PropTypes.string,
-}
+};
 
 Select.defaultProps = {
   onChange: () => null,
@@ -96,6 +102,6 @@ Select.defaultProps = {
   label: "",
   type: "normal",
   name: "select",
-}
+};
 
 export default Select;
