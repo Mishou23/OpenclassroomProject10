@@ -25,13 +25,12 @@ const EventList = () => {
   // Paginate the filtered events
   const startIndex = (currentPage - 1) * PER_PAGE;
   const endIndex = startIndex + PER_PAGE;
-  const paginatedEvents = filteredEventsByType.slice(startIndex, endIndex);
-
+  const paginatedEvents = filteredEventsByType ? filteredEventsByType.slice(startIndex, endIndex) : [];
+  
   const changeType = (evtType) => {
     setCurrentPage(1);
     setType(evtType);
   };
-
   const pageNumber = Math.ceil((filteredEventsByType?.length || 0) / PER_PAGE);
 
   const typeList = new Set(data?.events.map((event) => event.type));

@@ -1,13 +1,20 @@
 import { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import Field, { FIELD_TYPES } from "../../components/Field";
-import Select from "../../components/Select";
 import Button, { BUTTON_TYPES } from "../../components/Button";
 
 const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 1000); })
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
+
+  // State for managing the checkbox value
+  const [isCheckboxChecked, setCheckboxChecked] = useState(false);
+
+  const handleCheckboxChange = useCallback((event) => {
+    setCheckboxChecked(event.target.checked);
+  }, []);
+
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
@@ -24,19 +31,21 @@ const Form = ({ onSuccess, onError }) => {
     },
     [onSuccess, onError]
   );
+
   return (
     <form onSubmit={sendContact}>
       <div className="row">
         <div className="col">
           <Field placeholder="" label="Nom" />
           <Field placeholder="" label="Prénom" />
-          <Select
-            selection={["Personel", "Entreprise"]}
-            onChange={() => null}
-            label="Personel / Entreprise"
-            type="large"
-            titleEmpty
+
+          {/* Add onChange handler for the checkbox */}
+          <input
+            type="checkbox"
+            checked={isCheckboxChecked}
+            onChange={handleCheckboxChange}
           />
+
           <Field placeholder="" label="Email" />
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
             {sending ? "En cours" : "Envoyer"}
