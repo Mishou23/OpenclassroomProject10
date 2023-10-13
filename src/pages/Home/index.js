@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
@@ -14,6 +15,12 @@ import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
   const {last} = useData()
+
+  useEffect(() => {
+    if (last !== null) {
+      console.log("last:", last);
+    }
+  }, [last]);
   return <>
     <header>
       <Menu />
@@ -120,13 +127,15 @@ const Page = () => {
     <footer className="row">
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
+        {last !== null && (
         <EventCard
           imageSrc={last?.cover}
           title={last?.title}
           date={new Date(last?.date)}
           small
           label="boom"
-        />
+        />)}
+        {console.log('last value :',last)}
       </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
