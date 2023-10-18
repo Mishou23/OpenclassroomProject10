@@ -7,7 +7,7 @@ export const FIELD_TYPES = {
   TEXTAREA: 2,
 };
 
-const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder }) => {
+const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, checked, onChange }) => {
   let component;
   switch (type) {
     case FIELD_TYPES.INPUT_TEXT:
@@ -17,11 +17,20 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder }) => {
           name={name}
           placeholder={placeholder}
           data-testid="field-testid"
+          checked={checked}
+          onChange={onChange}
         />
       );
       break;
     case FIELD_TYPES.TEXTAREA:
-      component = <textarea name={name} data-testid="field-testid" />;
+      component = (
+        <textarea
+          name={name}
+          data-testid="field-testid"
+          value={checked ? placeholder : ''}
+          onChange={onChange}
+        />
+      );
       break;
     default:
       component = (
@@ -30,6 +39,8 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder }) => {
           name={name}
           placeholder={placeholder}
           data-testid="field-testid"
+          checked={checked}
+          onChange={onChange}
         />
       );
   }
@@ -46,12 +57,17 @@ Field.propTypes = {
   name: PropTypes.string,
   label: PropTypes.string,
   placeholder: PropTypes.string,
+  checked: PropTypes.bool, // Add checked to propTypes
+  onChange: PropTypes.func, // Add onChange to propTypes
 };
- Field.defaultProps = {
-   label: "",
-   placeholder: "",
-   type: FIELD_TYPES.INPUT_TEXT,
-   name: "field-name",
- }
+
+Field.defaultProps = {
+  label: "",
+  placeholder: "",
+  type: FIELD_TYPES.INPUT_TEXT,
+  name: "field-name",
+  checked: false, // Add a default value for checked
+  onChange: () => {}, // Add a default function for onChange
+};
 
 export default Field;
