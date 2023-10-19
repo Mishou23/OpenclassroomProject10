@@ -1,8 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Form from "./index";
 
-jest.mock("./path/to/mockContactApi"); // Replace with the actual path to the mockContactApi
-
 describe("When Events is created", () => {
   it("a list of event card is displayed", async () => {
     render(<Form />);
@@ -16,13 +14,15 @@ describe("When Events is created", () => {
     it("the success action is called", async () => {
       const onSuccess = jest.fn();
       render(<Form onSuccess={onSuccess} />);
-      fireEvent.click(screen.getByTestId("button-test-id"));
-
-      // Wait for the text to change based on the 'sending' state
-      await screen.findByText(/En cours|Envoyer/);
-
-      // Ensure that the mockContactApi resolves before asserting the success function
-      await jest.requireMock("./path/to/mockContactApi"); // Replace with the actual path
+      fireEvent(
+        await screen.findByTestId("button-test-id"),
+        new MouseEvent("click", {
+          cancelable: true,
+          bubbles: true,
+        })
+      );
+      await screen.findByText("En cours");
+      await screen.findByText("Envoyer");
       expect(onSuccess).toHaveBeenCalled();
     });
   });
