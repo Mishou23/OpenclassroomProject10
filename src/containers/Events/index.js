@@ -53,10 +53,10 @@ const EventList = () => {
     {({ setIsOpened }) => (
       <EventCard
         onClick={() => setIsOpened(true)}
-        imageSrc={event.cover || ''} // Provide a default value if cover is undefined
-        title={event.title || 'No Title'} // Provide a default title if title is undefined
-        date={event.date ? new Date(event.date) : new Date()} // Use the current date if date is undefined
-        label={event.type || 'No Label'} // Provide a default label if type is undefined
+        imageSrc={event.cover || ''} 
+        title={event.title || 'No Title'} 
+        date={event.date ? new Date(event.date) : new Date()}
+        label={event.type || 'No Label'} 
       />
     )}
   </Modal>
